@@ -1,4 +1,4 @@
-# 简介
+# Introduction
 A personal website created by [GitHub Pages](https://pages.github.com/)，and bound to my domain
 [wangnan.net](https://wangnan.net/).
 The page theme uses Jekyll Theme [The Minimal theme](https://github.com/pages-themes/minimal),
