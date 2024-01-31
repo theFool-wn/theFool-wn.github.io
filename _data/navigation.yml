@@ -1,0 +1,6 @@
+- name: Homepage
+  link: /index.html
+- name: SwiftUI
+  link: /_pages/Swiftui.html
+- name: Message
+  link: /_pages/message.html
