@@ -8,7 +8,7 @@ See [LICENSE](/LICENSE).
 
 ---
 
-The personal homepage deployment is not over yet, I am still learning.
+The personal website deployment is not over yet, I am still learning.
 
 ---
 
