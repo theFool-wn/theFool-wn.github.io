@@ -11,3 +11,6 @@ owner:
   # cv: /assets/files/xxx.pdf
   # scholar: ...
   
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
