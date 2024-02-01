@@ -4,6 +4,7 @@ url: https://wangnan.net
 lang: zh
 logo: /assets/image/logo.jpg
 show_downloads: false
+theme: jekyll-theme-minimal
 
 owner:
   name: Wang Nan
@@ -13,6 +14,3 @@ owner:
   # cv: /assets/files/xxx.pdf
   # scholar: ...
   
-plugins:
-  - jekyll-sitemap
-  - jekyll-seo-tag
