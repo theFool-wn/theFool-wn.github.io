@@ -16,3 +16,4 @@ owner:
   # cv: /assets/files/xxx.pdf
   # scholar: ...
   
+theme: jekyll-theme-minimal
