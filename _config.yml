@@ -7,13 +7,13 @@ show_downloads: false
 plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
+theme: jekyll-theme-minimal
 
 owner:
   name: Wang Nan
-  avatar: hanlin.jpg (根目录下的图片)
+  # avatar: /assets/image/wangnan.png
   email: me@wangnan.net
   github: theFool-wn
   # cv: /assets/files/xxx.pdf
   # scholar: ...
   
-theme: jekyll-theme-minimal
