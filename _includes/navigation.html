@@ -8,8 +8,10 @@
 	<div class="top-navigation">
 		<nav role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
 		    <ul>
-		        {% for link in site.data.navigation %}
-                <li><a href="{{ site.url }}{{ link.url }}" {% if url == link.url %}class="top-navigation-current"{% endif %}>{{ link.title }}</a></li>
+		        {% for item in site.data.navigation %}
+                <li>
+					<a href="{{ site.url }}{{ item.link }}" {% if url == item.link %}class="top-navigation-current"{% endif %}>{{ item.name }}</a>
+				</li>
 		        {% endfor %}
 		    </ul>
 		</nav>
