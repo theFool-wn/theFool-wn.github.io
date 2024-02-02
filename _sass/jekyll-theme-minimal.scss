@@ -64,9 +64,9 @@ a:hover small {
   padding: 0;
   border: 0;
 
-  min-height: 100vh;
-  height: auto;
-  overflow: auto;
+  // min-height: 100vh;
+  // height: auto;
+  // overflow: auto;
 }
 
 blockquote {
@@ -216,7 +216,7 @@ footer {
   background-color: #e5e2e2;
   width: 100%;
   margin: 0 auto;
-  position: absolute;
+  // position: absolute;
   // bottom:100px;
   padding: 40px auto
   -webkit-font-smoothing:subpixel-antialiased;
