@@ -6,13 +6,8 @@ description: Have a nice day!
 
 <h1>There is something interesting below.</h1>
 
-<h2 align = "center">实时时钟</h2>
+<h2 align = "center" style = "#0c0c0c">实时时钟</h2>
 <style>
-    body {
-        background-color: #f0f0f0;
-        color: #000000;
-    }
-
     #clock {
         width: 200px;
         height: 200px;
@@ -21,20 +16,53 @@ description: Have a nice day!
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 2em;
-        font-family: 'Arial', sans-serif;
-        color: #333;
+        position: relative;
+    }
+
+    .hand {
+        position: absolute;
+        width: 50%;
+        height: 2px;
+        background-color: #333;
+        transform-origin: 100%;
+        transform: rotate(90deg); /* 初始角度，使指针正对12点钟方向 */
+    }
+
+    .hour {
+        height: 6px;
+    }
+
+    .minute, .second {
+        height: 2px;
     }
 </style>
-<div id="clock"></div>
+
+<div id="clock" align = "center">
+    <div class="hand hour" id="hourHand"></div>
+    <div class="hand minute" id="minuteHand"></div>
+    <div class="hand second" id="secondHand"></div>
+</div>
+
 <script>
     function updateClock() {
         const now = new Date();
-        const hours = now.getHours().toString().padStart(2, '0');
-        const minutes = now.getMinutes().toString().padStart(2, '0');
-        const seconds = now.getSeconds().toString().padStart(2, '0');
-        const timeString = `${hours}:${minutes}:${seconds}`;
-        document.getElementById('clock').innerText = timeString;
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+
+        const hourHand = document.getElementById('hourHand');
+        const minuteHand = document.getElementById('minuteHand');
+        const secondHand = document.getElementById('secondHand');
+
+        // 计算指针旋转的角度
+        const hourRotation = (hours % 12 + minutes / 60) * 360 / 12;
+        const minuteRotation = (minutes + seconds / 60) * 360 / 60;
+        const secondRotation = seconds * 360 / 60;
+
+        // 应用旋转
+        hourHand.style.transform = `rotate(${hourRotation}deg)`;
+        minuteHand.style.transform = `rotate(${minuteRotation}deg)`;
+        secondHand.style.transform = `rotate(${secondRotation}deg)`;
     }
 
     // 更新时钟每秒钟
@@ -44,8 +72,7 @@ description: Have a nice day!
     updateClock();
 </script>
 
-
-<h2 align = "center">位置</h2>
+<h2 align = "center" style = "#0c0c0c">位置</h2>
 <div id="map" align = "center"></div>
 <script>
     // 使用浏览器的地理位置 API 获取位置信息
@@ -59,8 +86,8 @@ description: Have a nice day!
     });
 </script>
 
-<h2 align = "center">IP 地址</h2>
-<p id="ip-address"  align = "center"></p>
+<h2 align = "center" style = "#0c0c0c">IP 地址</h2>
+<p id="ip-address"  align = "center" style = "#0c0c0c"></p>
 <script>
     // 使用第三方 API 获取 IP 地址信息
     fetch('https://api.ipify.org?format=json')
