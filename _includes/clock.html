@@ -1,55 +1,36 @@
 <h2 align = "center" style = "color: #222222">实时时钟</h2>
 
 <style>
-    body {
-        align-items: center;
-        justify-content: center;
-    }
-
     #clock {
         width: 400px;
         height: 400px;
-        border: 20px solid #333;
+        border: 0px solid #333;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
-        font-family: 'Arial', sans-serif;
     }
 
     .hand {
         position: absolute;
+        width: 50%;
+        height: 4px;
         background-color: #333;
         transform-origin: 100%;
+        transform: rotate(90deg); /* 初始角度，使指针正对12点钟方向 */
     }
 
     .hour {
         height: 12px;
-        width: 50%;
     }
 
     .minute, .second {
         height: 4px;
-        width: 50%;
-    }
-
-    .number {
-        position: absolute;
-        font-size: 24px;
-        transform-origin: 50% 100%;
-        transform: rotate(60deg);
     }
 </style>
 
 <div id="clock">
-    <!-- 数字表盘 -->
-    <div class="number" style="top: 20px; left: 50%;">12</div>
-    <div class="number" style="right: 20px; top: 50%;">3</div>
-    <div class="number" style="bottom: 20px; left: 50%;">6</div>
-    <div class="number" style="left: 20px; top: 50%;">9</div>
-
-    <!-- 时钟指针 -->
     <div class="hand hour" id="hourHand"></div>
     <div class="hand minute" id="minuteHand"></div>
     <div class="hand second" id="secondHand"></div>
@@ -66,16 +47,20 @@
         const minuteHand = document.getElementById('minuteHand');
         const secondHand = document.getElementById('secondHand');
 
+        // 计算指针旋转的角度
         const hourRotation = (hours % 12 + minutes / 60) * 360 / 12;
         const minuteRotation = (minutes + seconds / 60) * 360 / 60;
         const secondRotation = seconds * 360 / 60;
 
+        // 应用旋转
         hourHand.style.transform = `rotate(${hourRotation}deg)`;
         minuteHand.style.transform = `rotate(${minuteRotation}deg)`;
         secondHand.style.transform = `rotate(${secondRotation}deg)`;
     }
 
+    // 更新时钟每秒钟
     setInterval(updateClock, 1000);
 
+    // 初始加载
     updateClock();
 </script>
