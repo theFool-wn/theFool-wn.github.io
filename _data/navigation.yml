@@ -1,5 +1,3 @@
-# Top-down tabs correspond to the navigation bar from right to left
-
 - name: Message
   link: /_pages/message.html
 - name: Homepage
