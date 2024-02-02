@@ -208,6 +208,7 @@ hr {
   border:0;
   background:#e5e5e5;
   height:1px;
+  weight: 100%;
   margin:0;
   bottom: 0;
 }
@@ -218,7 +219,8 @@ footer {
   margin: 0 auto;
   // position: absolute;
   // bottom:100px;
-  padding: 40px auto;
+  padding-top: 40px;
+  padding-left: 33.33%;
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
