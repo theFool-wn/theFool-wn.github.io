@@ -1,0 +1,12 @@
+<h2 align = "center" style = "color: #222222">IP 地址</h2>
+<p id="ip-address"  align = "center" style = "color: #222222"></p>
+<script>
+    // 使用第三方 API 获取 IP 地址信息
+    fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+            const ipAddress = data.ip;
+            document.getElementById('ip-address').innerText = ipAddress;
+        })
+        .catch(error => console.error('获取 IP 地址失败', error));
+</script>
