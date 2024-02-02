@@ -1,6 +1,8 @@
-- name: Homepage
-  link: /
+# Top-down tabs correspond to the navigation bar from right to left
+
 - name: Message
   link: /_pages/message.html
+- name: Homepage
+  link: /
 # - name: SwiftUI
 #   link: /_pages/Swiftui.html
