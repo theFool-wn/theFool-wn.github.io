@@ -64,7 +64,7 @@ a:hover small {
   padding: 0;
   border: 0;
 
-  min-height: calc(100vh-84px);
+  min-height: calc(100vh - 84px);
   height: auto;
   overflow: auto;
 }
@@ -214,10 +214,12 @@ hr {
 
 footer {
   background-color: #e5e2e2;
-  height: 80px;
+  height: 1em;
   margin: 0 auto;
-  padding-top: 40px;
-  padding-left: 40%;
+  padding-top: 50px;
+  padding-left: 35%;
+  padding-left: 35%;
+  padding-bottom: 20px;
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
