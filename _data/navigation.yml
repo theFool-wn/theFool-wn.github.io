@@ -1,7 +1,7 @@
 - name: Other
-  link: /other
+  link: /other/
 - name: Message
   # link: /_pages/message.html
-  link: /message
+  link: /message/
 - name: Homepage
   link: /
