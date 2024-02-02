@@ -64,7 +64,7 @@ a:hover small {
   padding: 0;
   border: 0;
 
-  min-height: 100vh-84px;
+  min-height: calc(100vh-84px);
   height: auto;
   overflow: auto;
 }
