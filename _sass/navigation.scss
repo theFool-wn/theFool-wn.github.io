@@ -76,10 +76,10 @@
     left: 0; /* 位于元素的左边 */
     right: 0; /* 位于元素的右边 */
     bottom: 0; /* 位于元素的底部 */
-    height: 3px; /* 下划线的高度 */
+    height: 4px; /* 下划线的高度 */
     background-color: currentColor; /* 使用文本颜色作为下划线颜色 */
     transform: scaleX(0); /* 初始时不显示下划线 */
-    transform-origin: 50% 80%; /* 设置变换原点为右侧中心点 */
+    transform-origin: 50% 60%; /* 设置变换原点为右侧中心点 */
     transition: transform 0.3s ease; /* 添加过渡效果 */
 }
 
