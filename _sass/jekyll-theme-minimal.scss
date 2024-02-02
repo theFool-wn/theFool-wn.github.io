@@ -57,7 +57,7 @@ a:hover small {
 }
 
 .wrapper {
-  width:950px;
+  width:860px;
   margin:0 auto;
 }
 
@@ -120,7 +120,7 @@ kbd {
 }
 
 header {
-  width:200px;
+  width:270px;
   float:left;
   position:fixed;
   -webkit-font-smoothing:subpixel-antialiased;
@@ -187,9 +187,9 @@ strong {
 }
 
 section {
-  width:650px;
+  width:500px;
   float:right;
-  padding-bottom:70px;
+  padding-bottom:50px;
 }
 
 small {
@@ -208,10 +208,10 @@ footer {
   background-color: #e5e2e2;
   // width:270px;
   // float:left;
-  margin: 0;
-  position: absolute;
+  margin: 0 auto;
+  position: fixed;
   bottom:70px;
-  padding: auto
+  // padding: auto
   -webkit-font-smoothing:subpixel-antialiased;
 }
 
