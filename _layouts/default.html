@@ -17,20 +17,21 @@
         {% include navigation.html %}
         <div class="wrapper">
             <header {% unless site.description or site.github.project_tagline %} class="without-description" {% endunless %}>
-                <h1><a href="{{ '/' | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
+                <h1><a href="{{ '/' | absolute_url }}" align = "center">{{ site.title | default: site.github.repository_name }}</a></h1>
 
                 {% if site.logo %}
                     <img src="{{site.logo | relative_url}}" class="author-logo" alt="Logo" />
                 {% endif %}
 
-                <p>{{ page.description | default: site.description }}</p>
+                <br>
+                <p align = "center">{{ page.description | default: site.description }}</p>
 
                 {% if site.github.is_project_page %}
-                <p class="view"><a href="{{ site.github.repository_url }}">View the Project on GitHub <small>{{ site.github.repository_nwo }}</small></a></p>
+                <p class="view" align = "center"><a href="{{ site.github.repository_url }}">View the Project on GitHub <small>{{ site.github.repository_nwo }}</small></a></p>
                 {% endif %}
 
                 {% if site.github.is_user_page %}
-                <p class="view"><a href="{{ site.github.owner_url }}">View My GitHub Profile</a></p>
+                <p class="view" align = "center"><a href="{{ site.github.owner_url }}">View My GitHub Profile</a></p>
                 {% endif %}
 
                 {% if site.show_downloads %}
