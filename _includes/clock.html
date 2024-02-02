@@ -1,0 +1,68 @@
+<h2 align = "center" style = "#222222">实时时钟</h2>
+<style>
+    body {
+      justify-content: center;
+    }
+    #clock {
+        width: 400px;
+        height: 400px;
+        border: 20px solid #333;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .hand {
+        position: absolute;
+        width: 50%;
+        height: 4px;
+        background-color: #333;
+        transform-origin: 100%;
+        transform: rotate(90deg); /* 初始角度，使指针正对12点钟方向 */
+    }
+
+    .hour {
+        height: 12px;
+    }
+
+    .minute, .second {
+        height: 4px;
+    }
+</style>
+
+<div id="clock">
+    <div class="hand hour" id="hourHand"></div>
+    <div class="hand minute" id="minuteHand"></div>
+    <div class="hand second" id="secondHand"></div>
+</div>
+
+<script>
+    function updateClock() {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+
+        const hourHand = document.getElementById('hourHand');
+        const minuteHand = document.getElementById('minuteHand');
+        const secondHand = document.getElementById('secondHand');
+
+        // 计算指针旋转的角度
+        const hourRotation = (hours % 12 + minutes / 60) * 360 / 12;
+        const minuteRotation = (minutes + seconds / 60) * 360 / 60;
+        const secondRotation = seconds * 360 / 60;
+
+        // 应用旋转
+        hourHand.style.transform = `rotate(${hourRotation}deg)`;
+        minuteHand.style.transform = `rotate(${minuteRotation}deg)`;
+        secondHand.style.transform = `rotate(${secondRotation}deg)`;
+    }
+
+    // 更新时钟每秒钟
+    setInterval(updateClock, 1000);
+
+    // 初始加载
+    updateClock();
+</script>
