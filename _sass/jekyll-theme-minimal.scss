@@ -4,6 +4,8 @@
 
 body {
   background-color: #fff;
+  margin: 0;
+  border: 0;
   padding:0 0 50px 0;
   font: 14px/1.5 "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color:#727272;
@@ -57,8 +59,14 @@ a:hover small {
 }
 
 .wrapper {
-  width:860px;
+  width:960px;
   margin:0 auto;
+  padding: 0;
+  border: 0;
+
+  min-height: 100vh;
+  height: auto;
+  overflow: auto;
 }
 
 blockquote {
@@ -120,7 +128,7 @@ kbd {
 }
 
 header {
-  width:270px;
+  width:240px;
   float:left;
   position:fixed;
   -webkit-font-smoothing:subpixel-antialiased;
@@ -187,7 +195,7 @@ strong {
 }
 
 section {
-  width:500px;
+  width:600px;
   float:right;
   padding-bottom:50px;
 }
@@ -200,18 +208,17 @@ hr {
   border:0;
   background:#e5e5e5;
   height:1px;
-  // margin:0 0 20px;
-  bottom: 50px;
+  margin:0;
+  bottom: 0;
 }
 
 footer {
   background-color: #e5e2e2;
-  // width:270px;
-  // float:left;
+  width: 100%;
   margin: 0 auto;
-  position: fixed;
-  bottom:70px;
-  // padding: auto
+  position: absolute;
+  // bottom:100px;
+  padding: 40px auto
   -webkit-font-smoothing:subpixel-antialiased;
 }
 
