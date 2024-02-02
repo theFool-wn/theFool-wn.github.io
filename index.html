@@ -4,10 +4,30 @@ title: Wang Nan 's Homepage
 description: Have a nice day!
 ---
 
-<h1>There is something.</h1>
+<h1>There is something interesting below.</h1>
 
 <h2 align = "center">实时时钟</h2>
-<p id="clock" align = "center"></p>
+<style>
+    body {
+        display: flex;
+        background-color: #f0f0f0;
+        color: #000000;
+    }
+
+    #clock {
+        width: 200px;
+        height: 200px;
+        border: 10px solid #333;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2em;
+        font-family: 'Arial', sans-serif;
+        color: #333;
+    }
+</style>
+<div id="clock"></div>
 <script>
     function updateClock() {
         const now = new Date();
@@ -25,6 +45,7 @@ description: Have a nice day!
     updateClock();
 </script>
 
+
 <h2 align = "center">位置</h2>
 <div id="map" align = "center"></div>
 <script>
@@ -39,7 +60,7 @@ description: Have a nice day!
     });
 </script>
 
-<h2 align = "center">您的 IP 地址是：</h2>
+<h2 align = "center">IP 地址</h2>
 <p id="ip-address"  align = "center"></p>
 <script>
     // 使用第三方 API 获取 IP 地址信息
