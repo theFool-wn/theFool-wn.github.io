@@ -218,8 +218,8 @@ footer {
   margin: 0 auto;
   // position: absolute;
   // bottom:100px;
-  padding: 40px auto
-  -webkit-font-smoothing: "subpixel-antialiased";
+  padding: 40px auto;
+  -webkit-font-smoothing: subpixel-antialiased;
 }
 
 @media print, screen and (max-width: 960px) {
