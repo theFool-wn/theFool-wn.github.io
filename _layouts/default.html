@@ -17,7 +17,7 @@
         {% include navigation.html %}
         <div class="wrapper">
             <header {% unless site.description or site.github.project_tagline %} class="without-description" {% endunless %}>
-                <h1><a href="{{ '/' | absolute_url }}" align = "center">{{ site.title | default: site.github.repository_name }}</a></h1>
+                <h1 align = "center"><a href="{{ '/' | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
 
                 {% if site.logo %}
                     <img src="{{site.logo | relative_url}}" class="author-logo" alt="Logo" />
