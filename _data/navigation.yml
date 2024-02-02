@@ -1,5 +1,6 @@
 - name: Message
-  link: /_pages/message.html
+  # link: /_pages/message.html
+  link: /message
 - name: Homepage
   link: /
 # - name: SwiftUI
