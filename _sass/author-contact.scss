@@ -1,0 +1,22 @@
+.contact-link {
+  color: #494e52; /* 设置链接颜色 */
+  text-decoration: none; /* 去除默认下划线样式 */
+  display: inline-block; /* 使得链接元素能够设置宽度和高度 */
+}
+
+.contact-link:hover {
+  color: #000000; /* 设置链接悬停时的颜色 */
+}
+
+.contact-text {
+  font-style: italic; /* 设置文字为斜体 */
+  margin-left: 4px; /* 设置文字与图标之间的间距 */
+}
+
+.fas.fa-envelope {
+  color: #494e52; /* 设置图标颜色 */
+}
+
+.fab.fa-github {
+  color: #494e52; /* 设置图标颜色 */
+}
