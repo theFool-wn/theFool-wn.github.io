@@ -1,7 +1,7 @@
+- name: Other
+  link: /other
 - name: Message
   # link: /_pages/message.html
   link: /message
 - name: Homepage
   link: /
-# - name: SwiftUI
-#   link: /_pages/Swiftui.html
