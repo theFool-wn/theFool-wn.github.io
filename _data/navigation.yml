@@ -3,5 +3,7 @@
 - name: Message
   # link: /_pages/message.html
   link: /message/
+- name: Cardistry
+  link: /Cardistry/
 - name: Homepage
   link: /
