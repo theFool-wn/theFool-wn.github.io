@@ -48,9 +48,9 @@
         const secondHand = document.getElementById('secondHand');
 
         // 计算指针旋转的角度
-        const hourRotation = (hours % 12 + minutes / 60) * 360 / 12;
-        const minuteRotation = (minutes + seconds / 60) * 360 / 60;
-        const secondRotation = seconds * 360 / 60;
+        const hourRotation = (hours % 12 + minutes / 60) * 360 / 12 + 90;
+        const minuteRotation = (minutes + seconds / 60) * 360 / 60 + 90;
+        const secondRotation = seconds * 360 / 60 + 90;
 
         // 应用旋转
         hourHand.style.transform = `rotate(${hourRotation}deg)`;
