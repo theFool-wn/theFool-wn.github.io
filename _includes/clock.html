@@ -36,23 +36,18 @@
 
     .number {
         position: absolute;
-        font-size: 12px;
-        transform-origin: 50% 100%;
-        transform: rotate(60deg);
-/*         transform-origin: 50% 50%; */
+        font-size: 13px;
+        color: #222222;
     }
 </style>
 
 <div id="clock">
     <!-- 数字表盘 -->
-    <div class="number" style="top: 10px; left: 50%;">12</div>
-    <div class="number" style="right: 10px; top: 50%;">3</div>
-    <div class="number" style="bottom: 10px; left: 50%;">6</div>
-    <div class="number" style="left: 10px; top: 50%;">9</div>
-<!--     @for $i from 1 through 12 {
-        <div class="number"> #{$i} </div>
-    } -->
-    
+    <div class="number" style="top: 10px; left: 48%;">12</div>
+    <div class="number" style="right: 10px; top: 48%;">3</div>
+    <div class="number" style="bottom: 10px; left: 49%;">6</div>
+    <div class="number" style="left: 10px; top: 48%;">9</div>
+
     <div class="hand hour" id="hourHand"></div>
     <div class="hand minute" id="minuteHand"></div>
     <div class="hand second" id="secondHand"></div>
