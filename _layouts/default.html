@@ -16,8 +16,146 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
         <![endif]-->
         {% include head.html %}
+        <style>
+            body, html {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: white;
+            }
+            canvas {
+                display: block;
+            }
+        </style>
     </head>
     <body>
+        <canvas id="canvas"></canvas>
+        <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const elements = [];
+        const trailElements = [];
+        const numElements = 180; // Reduced by 10% from 200
+        const maxDistance = 75; // Reduce the maximum distance for lines
+        const mouseRange = 200;
+        
+        function random(min, max) {
+          return Math.random() * (max - min) + min;
+        }
+        
+        function createElement(x = random(0, canvas.width), y = random(0, canvas.height), type = 'normal') {
+          const color = type === 'trail' ? `rgba(169, 169, 169, 0.15)` : `rgba(0, 0, 0, 0.3)`;
+          return {
+            x: x,
+            y: y,
+            size: random(2, 5),
+            speed: random(0.5, 1.5),
+            opacity: type === 'trail' ? 0.15 : 0.3, // Reduced opacity for trail elements
+            direction: random(0, 2 * Math.PI),
+            type: type,
+            life: type === 'trail' ? 75 : null, // Longer life for trail elements
+            color: color // Gray color for trail elements
+          };
+        }
+        
+        for (let i = 0; i < numElements; i++) {
+          elements.push(createElement());
+        }
+        
+        let mouseX = -9999;
+        let mouseY = -9999;
+        
+        document.addEventListener('mousemove', (event) => {
+          mouseX = event.clientX;
+          mouseY = event.clientY;
+          for (let i = 0; i < 2; i++) { // Increase number of trail elements by 2
+            trailElements.push(createElement(mouseX, mouseY, 'trail'));
+          }
+        });
+        
+        function draw() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+          [...elements, ...trailElements].forEach(el => {
+            if (el.life) {
+              el.life--;
+              el.opacity = el.life / 75; // Adjusted opacity for longer life
+              if (el.life <= 0) {
+                if (el.type === 'trail') {
+                  trailElements.splice(trailElements.indexOf(el), 1);
+                } else {
+                  elements.splice(elements.indexOf(el), 1);
+                }
+              }
+            } else {
+              el.color = `rgba(0, 0, 0, ${el.x < canvas.width * 0.1 || el.x > canvas.width * 0.9 || el.y < canvas.height * 0.1 || el.y > canvas.height * 0.9 ? 0.6 : 0.3})`;
+            }
+        
+            const dx = mouseX - el.x;
+            const dy = mouseY - el.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+        
+            if (distance < mouseRange && el.type !== 'trail') {
+              const moveX = (dx / distance) * el.speed;
+              const moveY = (dy / distance) * el.speed;
+              el.x += moveX;
+              el.y += moveY;
+            } else {
+              el.x += Math.cos(el.direction) * el.speed;
+              el.y += Math.sin(el.direction) * el.speed;
+        
+              if (el.x < 0 || el.x > canvas.width || el.y < 0 || el.y > canvas.height) {
+                el.direction = random(0, 2 * Math.PI);
+              }
+            }
+        
+            elements.forEach(otherEl => {
+              if (el !== otherEl && el.type !== 'trail' && otherEl.type !== 'trail') {
+                const otherDx = otherEl.x - el.x;
+                const otherDy = otherEl.y - el.y;
+                const otherDistance = Math.sqrt(otherDx * otherDx + otherDy * otherDy);
+        
+                if (otherDistance < maxDistance) {
+                  ctx.beginPath();
+                  ctx.moveTo(el.x, el.y);
+                  ctx.lineTo(otherEl.x, otherEl.y);
+                  ctx.strokeStyle = `rgba(0, 0, 0, ${0.1 * (1 - otherDistance / maxDistance)})`;
+                  ctx.stroke();
+        
+                  if (otherDistance < el.size + otherEl.size) {
+                    el.opacity -= 0.01;
+                    if (el.opacity <= 0) {
+                      elements.splice(elements.indexOf(el), 1, createElement());
+                    }
+                  }
+                }
+              }
+            });
+        
+            ctx.beginPath();
+            ctx.arc(el.x, el.y, el.size, 0, 2 * Math.PI);
+            ctx.fillStyle = el.color || `rgba(0, 0, 0, ${el.opacity})`;
+            ctx.fill();
+          });
+        
+          // Remove excess elements to keep the number stable
+          while (elements.length > numElements) {
+            elements.shift();
+          }
+        
+          requestAnimationFrame(draw);
+        }
+        
+        draw();
+        
+        window.addEventListener('resize', () => {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        });
+        </script>
         {% include navigation.html %}
         <div class="wrapper">
             <header {% unless site.description or site.github.project_tagline %} class="without-description" {% endunless %}>
