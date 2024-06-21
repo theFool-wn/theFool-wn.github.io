@@ -312,6 +312,11 @@ footer {
     transform: scale(0.7);
     transform-origin: 21vw;
   }
+
+  #map {
+    transform: scale(0.66);
+    transform-origin: left;
+  }
   
   .align-contact {
     padding-left: 38%;
