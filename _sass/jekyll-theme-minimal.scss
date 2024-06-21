@@ -228,8 +228,8 @@ footer {
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
-#align_contact {
-   padding-left: 35%;
+#align-contact {
+  padding-left: var(--padding-left, 38%);
 }
 
 @media print, screen and (max-width: 960px) {
