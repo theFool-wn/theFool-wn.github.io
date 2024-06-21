@@ -285,6 +285,19 @@ footer {
   body {
     padding:15px;
   }
+
+  .navigation-wrapper {
+    transform: scale(0.8);
+    transform-origin: left;
+  }
+
+  .top-navigation {
+    float: left;
+  }
+  
+  .top-navigation li {
+    margin-right: 10px;
+  }
   
   footer {
     padding-left: 7%;
@@ -295,7 +308,11 @@ footer {
     transform: scale(0.7);
     transform-origin: 21vw;
   }
-
+  
+  #align-contact {
+    padding-left: 38%;
+  }
+  
   .downloads {
     width:99%;
   }
