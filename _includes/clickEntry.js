@@ -19,52 +19,46 @@
         }, timeoutDuration);
     });
     
+    // 监听右键点击事件
     document.addEventListener("contextmenu", function (e) {
-        if ((clickCount === 10 || clickCount === 16) && !menuAdded) {
+        if (clickCount === 10 || clickCount === 16) {
             e.preventDefault();
     
-            // 获取默认的右键菜单（模拟）
-            const menu = document.createElement("ul");
-            menu.style.position = "absolute";
-            menu.style.left = `${e.pageX}px`;
-            menu.style.top = `${e.pageY}px`;
-            menu.style.backgroundColor = "#fff";
-            menu.style.border = "1px solid #ccc";
-            menu.style.padding = "5px";
-            menu.style.listStyle = "none";
-            menu.style.zIndex = "1000";
-            document.body.appendChild(menu);
+            // 使用 setTimeout 添加新的菜单项
+            setTimeout(() => {
+                // 创建新的菜单项
+                const newMenuItem = document.createElement("li");
+                newMenuItem.textContent = clickCount === 10 ? "进入 A" : "进入 B";
+                newMenuItem.style.cursor = "pointer";
     
-            // 模拟默认菜单项
-            const defaultOption = document.createElement("li");
-            defaultOption.textContent = "默认选项";
-            menu.appendChild(defaultOption);
+                // 点击新菜单项时的行为
+                newMenuItem.addEventListener("click", () => {
+                    window.location.href = clickCount === 10 ? "A.html" : "B.html";
+                });
     
-            // 创建新的右键菜单选项
-            const newOption = document.createElement("li");
-            if (clickCount === 10) {
-                newOption.innerHTML = `<a href="/A/">进入 A</a>`;
-            } else if (clickCount === 16) {
-                newOption.innerHTML = `<a href="/B/">进入 B</a>`;
-            }
-            menu.appendChild(newOption);
+                // 获取默认菜单
+                const defaultMenu = document.createElement("div");
+                defaultMenu.innerHTML = "<ul style='list-style:none; padding: 0; margin: 0;'>" +
+                    "<li>复制</li><li>编辑</li><li>放大</li><li>添加</li><li>检查</li>" +
+                    "</ul>";
+                document.body.appendChild(defaultMenu);
     
-            menuAdded = true;
+                // 将新的菜单项添加到默认菜单中
+                defaultMenu.firstChild.appendChild(newMenuItem);
     
-            // 点击菜单项时隐藏菜单并重置
-            newOption.addEventListener("click", () => {
-                document.body.removeChild(menu);
-                clickCount = 0; // 重置点击计数
-                menuAdded = false; // 重置菜单标记
-            });
+                // 设置菜单位置
+                defaultMenu.style.position = "absolute";
+                defaultMenu.style.left = `${e.pageX}px`;
+                defaultMenu.style.top = `${e.pageY}px`;
+                defaultMenu.style.backgroundColor = "#fff";
+                defaultMenu.style.border = "1px solid #ccc";
+                defaultMenu.style.zIndex = "1000";
     
-            // 点击其他地方时隐藏菜单
-            document.addEventListener("click", function () {
-                if (menuAdded) {
-                    document.body.removeChild(menu);
-                    menuAdded = false;
-                }
-            }, { once: true });
+                // 点击其他地方时隐藏菜单
+                document.addEventListener("click", function () {
+                    document.body.removeChild(defaultMenu);
+                }, { once: true });
+            }, 0); // 确保默认菜单渲染后再添加新选项
         }
     });
 </script>
