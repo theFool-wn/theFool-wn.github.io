@@ -43,9 +43,9 @@
             // 创建新的右键菜单选项
             const newOption = document.createElement("li");
             if (clickCount === 7) {
-                newOption.innerHTML = `<a href="/Undifined_A/" style="color: #000000; text-decoration: none;">Undifined_A</a>`;
+                newOption.innerHTML = `<a href="/Undifined_A/" style="color: #000000; text-decoration: none;" onmouseout="this.style.textDecoration='none'">Undifined_A</a>`;
             } else if (clickCount === 13) {
-                newOption.innerHTML = `<a href="/Undifined_B/" style="color: #000000; text-decoration: none;">Undifined_B</a>`;
+                newOption.innerHTML = `<a href="/Undifined_B/" style="color: #000000; text-decoration: none;" onmouseout="this.style.textDecoration='none'">Undifined_B</a>`;
             }
             menu.appendChild(newOption);
     
