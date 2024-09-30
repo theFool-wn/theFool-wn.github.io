@@ -43,21 +43,10 @@
             // 创建新的右键菜单选项
             const newOption = document.createElement("li");
             if (clickCount === 7) {
-                newOption.innerHTML = `<a href="/Undifined_A/">Undifined_A</a>`;
+                newOption.innerHTML = `<a href="/Undifined_A/" style="color: #000000; text-decoration: none" onmouseover="this.style.textDecoration='none'" onmouseout="this.style.textDecoration='none'">Undifined_A</a>`;
             } else if (clickCount === 13) {
-                newOption.innerHTML = `<a href="/Undifined_B/">Undifined_B</a>`;
+                newOption.innerHTML = `<a href="/Undifined_B/" style="color: #000000; text-decoration: none" onmouseover="this.style.textDecoration='none'" onmouseout="this.style.textDecoration='none'">Undifined_B</a>`;
             }
-            newOption.style.color = "#000000";
-            newOption.style.textDecoration = "none";
-            newOption.style.fontWeight = "normal";
-            newOption.addEventListener("mouseover", function () {
-                newOption.style.textDecoration = "none";
-                newOption.style.fontWeight = "normal";
-            });
-            newOption.addEventListener("mouseout", function () {
-                newOption.style.textDecoration = "none";
-                newOption.style.fontWeight = "normal";
-            });
             menu.appendChild(newOption);
     
             menuAdded = true;
