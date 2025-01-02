@@ -10,4 +10,4 @@ The personal website deployment is not over yet, I am still learning.
 # LICENSE
 This work is licensed under a [CC0-1.0 license](/LICENSE).
 
-&copy; 2024 Wang Nan.
+&copy; 2024-2025 Wang Nan.
