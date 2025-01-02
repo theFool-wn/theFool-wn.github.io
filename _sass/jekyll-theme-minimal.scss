@@ -223,8 +223,10 @@ footer {
   color: #727272;
   height: 2em;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding-top: 30px;
-  padding-left: 35%;
   padding-bottom: 40px;
   -webkit-font-smoothing: subpixel-antialiased;
 }
