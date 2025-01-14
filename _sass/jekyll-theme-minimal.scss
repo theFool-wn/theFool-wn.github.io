@@ -231,10 +231,6 @@ footer {
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
-.align-contact {
-  padding-left: 35%;
-}
-
 @media print, screen and (max-width: 960px) {
 
   div.wrapper {
@@ -291,16 +287,17 @@ footer {
 @media print, screen and (max-width: 480px) {
   body {
     padding:15px;
-    overflow-x: clip;
   }
 
   .navigation-wrapper {
-    transform: scale(0.87);
-    transform-origin: left;
+    display: flex;
+    align-items: center;
+    padding-bottom: 0;
   }
 
-  .top-navigation {
-    float: left;
+  .top-navigation ul {
+    margin-left: 10px;
+    font-size: 10px;
   }
   
   .top-navigation li {
@@ -308,8 +305,11 @@ footer {
   }
   
   footer {
-    padding-left: 6%;
     padding-bottom: 60px;
+  }
+
+  footer p {
+    text_align: center;
   }
 
   #clock {
@@ -320,10 +320,6 @@ footer {
   #map {
     transform: scale(0.66);
     transform-origin: left;
-  }
-  
-  .align-contact {
-    padding-left: 40%;
   }
   
   .downloads {
