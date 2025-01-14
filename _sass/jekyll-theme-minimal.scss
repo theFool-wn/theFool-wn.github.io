@@ -297,6 +297,7 @@ footer {
     display: flex;
     align-items: center;
     padding-bottom: 0;
+    width: auto;
   }
 
   .top-navigation ul {
@@ -313,7 +314,7 @@ footer {
   }
 
   footer p {
-    text_align: center;
+    text-align: center;
   }
 
   #clock {
