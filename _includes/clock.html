@@ -57,7 +57,7 @@
     function applyScale() {
         if (window.innerWidth <= 480) {
             var element = document.getElementById('clock');
-            var scaleValue = window.innerWidth / 406;
+            var scaleValue = (window.innerWidth - 30px) / 406;
             element.style.transform = 'scale(' + scaleValue + ')';
             element.style.margin = '0';
         }
