@@ -54,6 +54,20 @@
 </div>
 
 <script>
+    function applyScale() {
+        if (window.innerWidth <= 480) {
+            var element = document.getElementById('your-element-id');
+            var scaleValue = window.innerWidth / 406;
+            element.style.transform = 'scale(' + scaleValue + ')';
+        }
+    }
+
+    window.addEventListener('resize', applyScale);
+    
+    applyScale();
+</script>
+
+<script>
     function updateClock() {
         const now = new Date();
         const hours = now.getHours();
