@@ -318,8 +318,9 @@ footer {
   }
 
   #clock {
-    transform: scale(0.8);
-    transform-origin: 21vw;
+    // transform: scale(0.8);
+    transform-origin: 0vw;
+    margin: 0;
   }
 
   #map {
