@@ -1,0 +1,563 @@
+---
+permalink: /terminal/
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='0' y='0' width='64' height='64' rx='12' fill='%230c0c0c'/%3E%3Cpath d='M14 16 L34 32 L14 48' stroke='%2333ff33' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='40' y1='52' x2='56' y2='52' stroke='%2333ff33' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E" type="image/svg+xml">
+    <title>Terminal | Wang Nan 's Homepage</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #0c0c0c; 
+            color: #33ff33; 
+            font-family: "Consolas", "Cascadia Mono", "Lucida Console", "Courier New", monospace;
+            overflow: hidden; 
+            transition: opacity 1s ease;
+        }
+
+        #canvas {
+            position: absolute;
+            top: 0; left: 0;
+            z-index: 0;
+            opacity: 0.15;
+            transition: opacity 1s;
+        }
+
+        #terminal-container {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            padding: 20px;
+            padding-bottom: 100px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            text-shadow: 0 0 1px rgba(51, 255, 51, 0.2);
+            font-size: 1.1rem; 
+            line-height: 1.4; 
+        }
+
+        #terminal-container::-webkit-scrollbar { width: 10px; }
+        #terminal-container::-webkit-scrollbar-thumb { background: #333; border: 1px solid #000; }
+        #terminal-container::-webkit-scrollbar-track { background: #000; }
+
+        .output-line {
+            margin-bottom: 2px;
+            word-wrap: break-word;
+            white-space: pre-wrap; 
+        }
+
+        .input-line {
+            display: flex;
+            align-items: center;
+        }
+
+        .prompt {
+            color: #33ff33;
+            margin-right: 0px; 
+            white-space: nowrap;
+            font-weight: normal; 
+        }
+
+        #cmd-input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: inherit;
+            flex-grow: 1;
+            outline: none;
+            text-transform: lowercase;
+            padding-left: 10px;
+        }
+
+        @media (max-width: 600px) {
+            #terminal-container { padding: 15px; font-size: 14px; }
+            #cmd-input { font-size: 14px; }
+        }
+
+        #bsod {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #0000AA;
+            color: white;
+            z-index: 999;
+            padding: 10% 5%;
+            font-family: 'Courier New', Courier, monospace;
+            box-sizing: border-box;
+            font-size: 1rem;
+            text-shadow: none;
+            cursor: pointer;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+        .shake-screen {
+            animation: shake 0.5s;
+            animation-iteration-count: infinite; 
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+
+    <div id="terminal-container" onclick="focusInput()">
+        <div id="output"></div>
+        <div class="input-line">
+            <span class="prompt">visitor@wangnan.net:~$</span>
+            <input type="text" id="cmd-input" autocomplete="off" autofocus>
+        </div>
+    </div>
+
+    <div id="bsod" onclick="goHome()">
+        <p style="background: white; color: #0000AA; display: inline-block; margin-bottom: 20px;">WangNanOS</p>
+        <p>A fatal exception 0E has occurred at 0028:C0034B23. The current application will be terminated.</p>
+        <p>* Press any key to return to homepage.</p>
+        <p>* Click anywhere to return to homepage.</p>
+        <br>
+        <p class="blink">Press any key to continue_</p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let matrixColor = '#0f0'; 
+        
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+    
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+    
+        const cols = Math.floor(width / 20) + 1;
+        const ypos = Array(cols).fill(0);
+    
+        function matrix() {
+            ctx.fillStyle = '#0001';
+            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = matrixColor;
+            ctx.font = '15pt Consolas';
+            
+            ypos.forEach((y, index) => {
+                const text = String.fromCharCode(Math.random() * 128);
+                const x = index * 20;
+                ctx.fillText(text, x, y);
+                if (y > 100 + Math.random() * 10000) ypos[index] = 0;
+                else ypos[index] = y + 20;
+            });
+        }
+        setInterval(matrix, 50);
+    
+        const output = document.getElementById('output');
+        const input = document.getElementById('cmd-input');
+        const container = document.getElementById('terminal-container');
+        const promptSpan = document.querySelector('.prompt');
+        
+        let commandHistory = [];
+        let historyIndex = -1;
+        let isCrashed = false;
+        let isLocked = false;
+        
+        let currentGame = null; 
+        let gameState = {}; 
+    
+        const fileSystem = {
+            'about.txt': "Hello! I'm Wang Nan.\nI'm not a pro developer, just a tech hobbyist.\nI build things for fun, break things for knowledge,\nand write code to express myself.\nThis website is my digital playground.\nContact me at me@wangnan.net",
+            'skills.md': "- Curiosity: 100%\n- Google Search: Expert Level\n- Copy/Paste: Professional\n- Python/JS: Enough to be dangerous",
+            'todo.list': "1. Learn AI\n2. Build a spaceship\n3. Drink coffee\n4. Fix bugs introduced by item 3",
+            'secret.key': "ACCESS DENIED. Encrypted file."
+        };
+    
+        const welcomeMsg = [
+            "WangNanOS [Version 2.0.17653.2025]",
+            "(c) Wang Nan Corporation. All rights reserved.",
+            "",
+            "Boosting WangNanOS kernel...",
+            "Loading personality modules... Done.",
+            "Connecting to the server... Done.",
+            "--------------------------------------------------",
+            "Welcome to WangNanOS Terminal Interface [Initialized]",
+            "Type 'help' to see available commands.",
+            "--------------------------------------------------"
+        ];
+        
+        let lineIndex = 0;
+        function typeWriter() {
+            if (lineIndex < welcomeMsg.length) {
+                printLine(welcomeMsg[lineIndex]);
+                lineIndex++;
+                setTimeout(typeWriter, 30);
+            }
+        }
+        setTimeout(typeWriter, 200);
+    
+        function focusInput() {
+            if (!isCrashed && !isLocked) input.focus();
+        }
+    
+        document.addEventListener('keydown', function(e) {
+            if (isCrashed) {
+                goHome();
+                return;
+            }
+        });
+    
+        input.addEventListener('keydown', function(e) {
+            if (isLocked) {
+                e.preventDefault();
+                return;
+            }
+    
+            if (e.key === 'Enter') {
+                const command = this.value.trim().toLowerCase();
+                
+                if (currentGame) {
+                    printLine(`<span style="color:#0ff">${currentGame}></span> ${command}`);
+                    processGameInput(command);
+                } else {
+                    if (command) {
+                        commandHistory.push(command);
+                        historyIndex = commandHistory.length;
+                        printLine(`<span style="color:white;">visitor@wangnan.net:~$</span> ${command}`);
+                        processCommand(command);
+                    }
+                }
+                this.value = '';
+                setTimeout(() => container.scrollTop = container.scrollHeight, 10);
+            }
+            else if (e.key === 'ArrowUp') {
+                if (!currentGame) { 
+                    e.preventDefault();
+                    if (historyIndex > 0) {
+                        historyIndex--;
+                        this.value = commandHistory[historyIndex];
+                    }
+                }
+            }
+            else if (e.key === 'ArrowDown') {
+                if (!currentGame) {
+                    e.preventDefault();
+                    if (historyIndex < commandHistory.length - 1) {
+                        historyIndex++;
+                        this.value = commandHistory[historyIndex];
+                    } else {
+                        historyIndex = commandHistory.length;
+                        this.value = '';
+                    }
+                }
+            }
+        });
+    
+        function printLine(html) {
+            const div = document.createElement('div');
+            div.className = 'output-line';
+            div.innerHTML = html;
+            output.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+    
+        function processCommand(cmd) {
+            const parts = cmd.split(' ');
+            const mainCmd = parts[0];
+            const arg = parts[1];
+    
+            switch(mainCmd) {
+                case 'help':
+                    printLine("<br>System Commands:");
+                    printLine("  ls, cat, whois, date, clear, exit");
+                    printLine("<br>Games & Fun:");
+                    printLine("  guess     - Play 'Guess the Number'");
+                    printLine("  adventure - Text Adventure Game");
+                    printLine("  matrix [color] - Change background");
+                    printLine("  hack      - Crack the system");
+                    printLine("  joke      - Tell a joke");
+                    printLine("  dance     - Party mode");
+                    printLine("  coffee    - Brew code");
+                    printLine("  rm        - Remove files (Dangerous)");
+                    printLine("<br>");
+                    break;
+    
+                case 'date':
+                    printLine(new Date().toString());
+                    break;
+    
+                case 'joke':
+                    const jokes = [
+                        "Why do programmers prefer dark mode? Because light attracts bugs.",
+                        "How many programmers does it take to change a light bulb? None, that's a hardware problem.",
+                        "I walked into a bar. Ordered 1 beer. Ordered 0 beers. Ordered 999999999 beers. Ordered -1 beer. Ordered a lizard. The bartender is fine.",
+                        "Knock, knock. Who's there? Recursion. Recursion who? Knock, knock..."
+                    ];
+                    const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+                    printLine(`<br>"${randomJoke}"<br>`);
+                    break;
+    
+                case 'hack':
+                    printLine("Initiating brute force attack...");
+                    let progress = 0;
+                    const hackInterval = setInterval(() => {
+                        progress += 5;
+                        const randomCode = Math.random().toString(16).substring(2, 10);
+                        printLine(`[${randomCode}] Cracking... ${progress}%`);
+                        
+                        if (progress >= 100) {
+                            clearInterval(hackInterval);
+                            printLine("<br><span style='color:yellow'>ACCESS GRANTED.</span>");
+                            printLine("System Level: Admin");
+                            printLine("Secret found: Wang Nan is actually an AI... just kidding.");
+                            printLine("Secret found: Contact: me@wangnan.net<br>");
+                        }
+                    }, 100);
+                    break;
+    
+                case 'rm':
+                    printLine("rm: cannot remove '/': Permission denied");
+                    printLine("<span style='color:gray'>(Hint: You are not root. Try 'sudo' if you dare...)</span>");
+                    break;
+    
+                case 'sudo':
+                    if (arg && arg.includes('rm')) {
+                        startDestruction();
+                    } else {
+                        printLine("wangnan is not in the sudoers file. This incident will be reported.");
+                    }
+                    break;
+    
+                case 'guess':
+                    startGuessGame();
+                    break;
+    
+                case 'adventure':
+                    startAdventure();
+                    break;
+    
+                case 'matrix':
+                    if (arg) {
+                        if (arg === 'red') matrixColor = '#ff3333';
+                        else if (arg === 'blue') matrixColor = '#3333ff';
+                        else if (arg === 'white') matrixColor = '#ffffff';
+                        else matrixColor = '#0f0';
+                        printLine(`Matrix color changed to ${arg || 'green'}.`);
+                    } else {
+                        printLine("Usage: matrix [red|blue|white|green]");
+                    }
+                    break;
+    
+                case 'dance':
+                    document.body.classList.add('shake-screen');
+                    printLine("Let's dance! (Type any key to make it stop)");
+                    currentGame = 'dance'; 
+                    break;
+    
+                case 'ls':
+                case 'll':
+                case 'dir':
+                    printLine("<br>Directory of /home/wangnan/docs:");
+                    for (let file in fileSystem) printLine(`-rw-r--r--  ${file}`);
+                    printLine("<br>");
+                    break;
+    
+                case 'cat':
+                    if (!arg) printLine("Usage: cat [filename]");
+                    else if (fileSystem[arg]) {
+                        printLine(`<br><span style='color:#fff'>--- ${arg} ---</span>`);
+                        printLine(fileSystem[arg]);
+                        printLine("<br>");
+                    } else printLine(`cat: ${arg}: No such file`);
+                    break;
+    
+                case 'whois':
+                case 'about':
+                    printLine(fileSystem['about.txt']);
+                    break;
+    
+                case 'coffee':
+                    printLine("<br>    (  )   (   )  )\n     ) (   )  (  (\n     ( )  (    ) )\n     _____________\n    <_____________> ___\n    |             |/ _ \\\n    |  COFFEE     | | | |\n    |             |_| | |\n    |_____________|\\___/\n<br>Here is your caffeine.");
+                    break;
+    
+                case 'exit':
+                case 'quit':
+                    printLine("Shutting down system...");
+                    document.body.style.opacity = '0';
+                    document.getElementById('canvas').style.opacity = '0';
+                    setTimeout(goHome, 1500);
+                    break;
+    
+                case 'clear':
+                    output.innerHTML = '';
+                    break;
+    
+                default:
+                    printLine(`<span style='color:#ff3333'>Command not found: ${cmd}</span>`);
+            }
+        }
+    
+        function startDestruction() {
+            isLocked = true;
+            input.disabled = true;
+            
+            printLine("<br><span style='color:red; font-weight:bold; background: #300;'> WARNING: ROOT PRIVILEGES GRANTED </span>");
+            printLine("<span style='color:red'>Initiating system deletion sequence...</span>");
+    
+            let progress = 0;
+            const total = 100;
+            
+            const systemFiles = [
+                "/boot/vmlinuz-5.4.0-42-generic",
+                "/etc/passwd",
+                "/etc/shadow",
+                "/usr/bin/python3",
+                "/home/wangnan/docs/secret.key",
+                "/var/log/syslog",
+                "/lib/systemd/systemd",
+                "C:/Windows/System32/kernel32.dll",
+                "The_Matrix_Source_Code.js"
+            ];
+    
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 5) + 1;
+                
+                const randomFile = systemFiles[Math.floor(Math.random() * systemFiles.length)];
+                
+                const barLength = 20;
+                const filledLength = Math.floor((progress / 100) * barLength);
+                const emptyLength = barLength - filledLength;
+                const bar = "[" + "█".repeat(filledLength) + "-".repeat(emptyLength) + "]";
+                
+                printLine(`Deleting ${randomFile}... ${bar} ${progress}%`);
+    
+                if (progress >= 90) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        printLine("<span style='color:red'>CRITICAL ERROR: KERNEL PANIC</span>");
+                        setTimeout(triggerBSOD, 800);
+                    }, 1000);
+                }
+            }, 150);
+        }
+    
+        function processGameInput(input) {
+            if (currentGame === 'guess') {
+                playGuess(input);
+            } else if (currentGame === 'adventure') {
+                playAdventure(input);
+            } else if (currentGame === 'dance') {
+                document.body.classList.remove('shake-screen');
+                printLine("Party over.");
+                currentGame = null;
+            }
+        }
+    
+        function startGuessGame() {
+            currentGame = 'guess';
+            gameState.target = Math.floor(Math.random() * 100) + 1;
+            gameState.tries = 0;
+            printLine("<br>--- GUESS THE NUMBER ---");
+            printLine("I have picked a number between 1 and 100.");
+            printLine("Type your guess (or 'quit' to exit).");
+            promptSpan.innerText = "guess_game>";
+        }
+    
+        function playGuess(input) {
+            if (input === 'quit' || input === 'exit') {
+                printLine("Game aborted.");
+                resetGame();
+                return;
+            }
+            const guess = parseInt(input);
+            if (isNaN(guess)) {
+                printLine("Please enter a valid number.");
+                return;
+            }
+            gameState.tries++;
+            if (guess < gameState.target) printLine("Too low!");
+            else if (guess > gameState.target) printLine("Too high!");
+            else {
+                printLine(`<span style="color:yellow">CORRECT! You got it in ${gameState.tries} tries.</span>`);
+                resetGame();
+            }
+        }
+    
+        function startAdventure() {
+            currentGame = 'adventure';
+            gameState.step = 0;
+            printLine("<br>--- THE MATRIX ADVENTURE ---");
+            printLine("You wake up in front of a computer screen.");
+            printLine("Morpheus holds out two pills.");
+            printLine("Do you take the <span style='color:red'>red</span> pill or the <span style='color:blue'>blue</span> pill?");
+            promptSpan.innerText = "choice>";
+        }
+    
+        function playAdventure(input) {
+            if (input === 'quit') { resetGame(); return; }
+    
+            if (gameState.step === 0) {
+                if (input.includes('red')) {
+                    printLine("You take the red pill...");
+                    printLine("The world dissolves. You wake up in a pod of goo.");
+                    printLine("A robot approaches. Do you [fight] or [run]?");
+                    gameState.step = 1;
+                } else if (input.includes('blue')) {
+                    printLine("You take the blue pill.");
+                    printLine("You wake up in your bed and believe whatever you want to believe.");
+                    printLine("Game Over.");
+                    resetGame();
+                } else {
+                    printLine("Please choose 'red' or 'blue'.");
+                }
+            } else if (gameState.step === 1) {
+                if (input.includes('fight')) {
+                    printLine("You know Kung Fu. You defeat the robot!");
+                    printLine("You are now The One. CONGRATULATIONS!");
+                    resetGame();
+                } else if (input.includes('run')) {
+                    printLine("You trip over a cable and get caught.");
+                    printLine("Bad ending.");
+                    resetGame();
+                } else {
+                    printLine("Do you [fight] or [run]?");
+                }
+            }
+        }
+    
+        function resetGame() {
+            currentGame = null;
+            gameState = {};
+            promptSpan.innerText = "visitor@wangnan.net:~$";
+            printLine("Exiting game mode...<br>");
+        }
+    
+        function triggerBSOD() {
+            isCrashed = true;
+            document.getElementById('terminal-container').style.display = 'none';
+            document.getElementById('canvas').style.display = 'none';
+            document.getElementById('bsod').style.display = 'block';
+        }
+    
+        function goHome() {
+            window.location.href = "/";
+        }
+    
+    </script>
+</body>
+</html>
