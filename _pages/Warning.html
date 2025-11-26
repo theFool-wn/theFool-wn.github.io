@@ -2,7 +2,7 @@
 permalink: /Warning/
 ---
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html style="height: 100%; margin: 0; background: linear-gradient(to bottom, #f0f8ff, #eef9fa);">
 	<head>
 		{% include head.html %}
@@ -14,4 +14,233 @@ permalink: /Warning/
 			</div>
 		</div>
 	</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23ff0000'/%3E%3Cpath d='M50 18 L80 72 L20 72 Z' fill='%23ffffff'/%3E%3Ctext x='50' y='62' text-anchor='middle' font-family='Arial, sans-serif' font-size='30' font-weight='bold' fill='%23ff0000'%3E!%3C/text%3E%3C/svg%3E">
+    <title>Warning | WangNan 's Homepage</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #ff3333;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            overflow: hidden;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        @keyframes alert-flash {
+            0% { background-color: #000; }
+            50% { background-color: #1a0000; }
+            100% { background-color: #000; }
+        }
+        .alert-mode {
+            animation: alert-flash 0.3s infinite;
+        }
+
+        .icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin: 0 0 15px 0;
+            letter-spacing: 2px;
+        }
+
+        .status-box {
+            height: 140px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        #status-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        .progress-box {
+            width: 100%;
+            max-width: 320px;
+            height: 24px;
+            border: 2px solid #ff3333;
+            padding: 3px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #ff3333;
+            transition: width 0.1s linear;
+        }
+
+        .action-area {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+            width: 100%;
+            max-width: 300px;
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-geek {
+            background-color: transparent;
+            border: 2px solid #33ff33;
+            color: #33ff33;
+            box-shadow: 0 0 10px rgba(51, 255, 51, 0.2);
+        }
+        .btn-geek:hover {
+            background-color: rgba(51, 255, 51, 0.1);
+            box-shadow: 0 0 20px rgba(51, 255, 51, 0.4);
+        }
+
+        .btn-home {
+            background-color: #222;
+            border: 1px solid #444;
+            color: #ccc;
+            font-size: 1rem;
+        }
+        .btn-home:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        @media (min-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            #status-text { font-size: 1.5rem; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="icon" id="main-icon">⚠️</div>
+    <h1 id="title">FATAL ERROR</h1>
+
+    <div class="status-box">
+        <p id="status-text">Unauthorized intrusion detected...</p>
+    </div>
+
+    <div class="progress-box" id="p-box">
+        <div class="progress-bar" id="p-bar"></div>
+    </div>
+
+    <div class="action-area" id="actions">
+        <a href="/terminal/" class="btn btn-geek">> Enter Terminal_</a>
+        <a href="/" class="btn btn-home">Back to Homepage</a>
+    </div>
+
+	<script>
+	    const icon = document.getElementById('main-icon');
+	    const title = document.getElementById('title');
+	    const statusText = document.getElementById('status-text');
+	    const pBox = document.getElementById('p-box');
+	    const pBar = document.getElementById('p-bar');
+	    const actions = document.getElementById('actions');
+	
+	    const script = [
+	        { progress: 10, text: "Locking device IP..." },
+	        { progress: 30, text: "Uploading photos to album via backdoor..." },
+	        { progress: 60, text: "Cracking WeChat/Alipay passwords..." },
+	        { progress: 85, text: "Analyzing chat history..." },
+	        { progress: 95, text: "Warning: Fake human detected. CPU overheating!" },
+	        { progress: 100, text: "System crash!" }
+	    ];
+	
+	    setTimeout(startPrank, 500);
+	
+	    function startPrank() {
+	        document.body.classList.add('alert-mode');
+	        pBox.style.display = 'block';
+	
+	        try {
+	            if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 500]);
+	        } catch(e) {}
+	
+	        let currentProgress = 0;
+	        
+	        const timer = setInterval(() => {
+	            const jump = Math.floor(Math.random() * 3) + 1; 
+	            currentProgress += jump;
+	
+	            if (currentProgress > 100) currentProgress = 100;
+	
+	            updateUI(currentProgress);
+	
+	            if (currentProgress >= 100) {
+	                clearInterval(timer);
+	                setTimeout(revealTruth, 600);
+	            }
+	        }, 50);
+	    }
+	
+	    function updateUI(progress) {
+	        pBar.style.width = progress + '%';
+	
+	        for (let i = script.length - 1; i >= 0; i--) {
+	            if (progress >= script[i].progress) {
+	                if (statusText.innerText !== script[i].text) {
+	                    statusText.innerText = script[i].text;
+	                    if (navigator.vibrate && progress < 90) navigator.vibrate(20);
+	                }
+	                break;
+	            }
+	        }
+	    }
+	
+	    function revealTruth() {
+	        document.body.classList.remove('alert-mode');
+	        document.body.style.backgroundColor = '#000';
+	        
+	        document.body.style.color = '#33ff33';
+	        pBox.style.borderColor = '#33ff33';
+	        pBar.style.backgroundColor = '#33ff33';
+	
+	
+	        icon.innerText = "✅";
+	        title.innerText = "Alarm canceled";
+	        statusText.innerHTML = "Just a joke.<br>No risks were identified. <br>Don't scan strange QR codes!";
+	
+	        pBox.style.display = 'none';
+	        actions.style.display = 'flex';
+	        
+	        if (navigator.vibrate) navigator.vibrate([50, 50, 100]);
+	    }
+	</script>
+</body>
 </html>
