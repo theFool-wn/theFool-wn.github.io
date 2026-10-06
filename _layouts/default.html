@@ -167,8 +167,9 @@
                     <div class="logo-wrap">
                         <img src="{{site.logo | relative_url}}" class="author-logo" id="clickEntry" alt="Logo" />
                         {% include clickEntry.js %}
-                        <div class="bloub-badge" id="bloubBadge" data-bloub-color="encre"></div>
-                        {% include bloub-badge.js %}
+                        <div class="bloub-badge">
+                            {% include bloub-badge.html %}
+                        </div>
                     </div>
                 {% endif %}
 
